@@ -48,6 +48,8 @@ public class CamaraActivity extends AppCompatActivity  {
     public static final int CAMERA_REQUEST_CODE = 102;
     StorageReference storageReference;
     Uri uriFinal;
+    boolean vacia = true;
+    boolean pulsado = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +59,18 @@ public class CamaraActivity extends AppCompatActivity  {
         storageReference = FirebaseStorage.getInstance().getReference();
 
         if (savedInstanceState != null){
-            uriFinal = Uri.parse(savedInstanceState.getString("imagen"));
-            Picasso.get().load(uriFinal).into(imagenSeleccionada);
+            vacia = savedInstanceState.getBoolean("vacia");
+            pulsado = savedInstanceState.getBoolean("pulsado");
+            Log.d("Prueba_foto", "vacia es --> " + vacia);
+            if (vacia == false ){
+                uriFinal = Uri.parse(savedInstanceState.getString("imagen"));
+                if ( pulsado == true){
+                    verImagen(uriFinal);
+                }
+                //Picasso.get().load(uriFinal).into(imagenSeleccionada);
+            }
         }
     }
-
-
 
     public void activarCamara(View view){
         askCameraPermissions();
@@ -80,8 +88,11 @@ public class CamaraActivity extends AppCompatActivity  {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if (uriFinal != null){
+            Log.d("Prueba_foto", "Uri en el save --> " + uriFinal);
             outState.putString("imagen", uriFinal.toString());
         }
+        outState.putBoolean("vacia", vacia);
+        outState.putBoolean("pulsado", pulsado);
     }
 
     @Override
@@ -129,9 +140,11 @@ public class CamaraActivity extends AppCompatActivity  {
                 image.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        Log.d("Prueba_Camara", "La url de la imagen subida es : " + uri.toString());
+                        //Log.d("Prueba_Camara", "La url de la imagen subida es : " + uri.toString());
                         //Picasso.get().load(uri).into(imagenSeleccionada);
                         uriFinal = uri;
+                        vacia = false;
+                        Log.d("Prueba_foto", "La uri es --> " + uriFinal);
                     }
                 });
                 Toast.makeText(CamaraActivity.this, "La imagen se ha subido correctamente", Toast.LENGTH_SHORT).show();
@@ -146,11 +159,18 @@ public class CamaraActivity extends AppCompatActivity  {
     }
 
     public void VerImagenSubida(View view){
-        if (uriFinal != null){
-            Picasso.get().load(uriFinal).into(imagenSeleccionada);
+        verImagen(uriFinal);
+    }
+
+    private void verImagen(Uri uri){
+        Log.d("Prueba_foto", "La uri es --> " + uri);
+        if (uri != null){
+            pulsado = true;
+            imagenSeleccionada = findViewById(R.id.imagenCamara);
+            Picasso.get().load(uri).into(imagenSeleccionada);
         }
         else {
-            Toast.makeText(CamaraActivity.this, "Debe sacar una foto", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CamaraActivity.this, "Debería sacar una foto", Toast.LENGTH_SHORT).show();
         }
     }
 
