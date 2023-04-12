@@ -20,6 +20,6 @@
     <string name="add_button">AÑADIR</string>
     <string name="nom_particicpante">Añade los participantes</string>
     <string name="btnCamara">Abrir Camara</string>
-    <string name="btnEnviarImg">Enviar Imagen</string>
+    <string name="btnEnviarImg">Ver Imagen Subida</string>
     <string name="camara_button">Comparte tus fotos</string>
 </resources>

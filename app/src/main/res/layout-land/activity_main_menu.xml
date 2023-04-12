@@ -6,6 +6,22 @@
     android:layout_height="match_parent"
     android:background="@drawable/background">
 
+    <Button
+        android:id="@+id/intrucciones_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="300dp"
+        android:layout_marginEnd="300dp"
+        android:backgroundTint="#33FF86"
+        android:onClick="instrucciones"
+        android:text="@string/instrucciones_button"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="491dp"
@@ -48,8 +64,8 @@
         android:layout_marginEnd="300dp"
         android:layout_marginBottom="200dp"
         android:backgroundTint="#33FF86"
-        android:onClick="instrucciones"
-        android:text="@string/instrucciones_button"
+        android:onClick="camara"
+        android:text="@string/camara_button"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
