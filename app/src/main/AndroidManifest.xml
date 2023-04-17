@@ -57,6 +57,15 @@
             </intent-filter>
         </activity>
 
+        <service
+            android:name=".ServicioFirebase"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.android.fileprovider"

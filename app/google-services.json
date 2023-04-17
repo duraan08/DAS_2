@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "261047812284",
+    "project_id": "galeria-fotos-das",
+    "storage_bucket": "galeria-fotos-das.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261047812284:android:6b1002af18e6e2658e90b9",
+        "android_client_info": {
+          "package_name": "com.example.juego_das"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261047812284-8v4r7ee306b5u3n9ggjq8chqbg4op8lh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBednK2LIFkxef0B3Qx2UF8sAs2uinIjQM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261047812284-8v4r7ee306b5u3n9ggjq8chqbg4op8lh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

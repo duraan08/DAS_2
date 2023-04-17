@@ -8,6 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.lifecycle.Observer;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -27,9 +32,18 @@ import android.widget.Toast;
 
 import android.Manifest;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.ktx.Firebase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -38,7 +52,15 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+
+
+//Codigo extraido de la lista de videos --> https://youtu.be/s1aOlr3vbbk?list=PLlGT4GXi8_8eopz0Gjkh40GG6O5KhL1V1 Autor : SmallAcademy
 public class CamaraActivity extends AppCompatActivity  {
 
     ImageView imagenSeleccionada;
@@ -50,6 +72,7 @@ public class CamaraActivity extends AppCompatActivity  {
     Uri uriFinal;
     boolean vacia = true;
     boolean pulsado = false;
+    static String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +170,8 @@ public class CamaraActivity extends AppCompatActivity  {
                         Log.d("Prueba_foto", "La uri es --> " + uriFinal);
                     }
                 });
+                //Se llama al metodo que ejecuta el php para enviar el mensaje FCM
+                onTokenRefresh();
                 Toast.makeText(CamaraActivity.this, "La imagen se ha subido correctamente", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -194,7 +219,6 @@ public class CamaraActivity extends AppCompatActivity  {
     private void dispatchTakePictureIntent(){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         //Se asegura de que hay una actividad para poder coger el intent
-        //if (takePictureIntent.resolveActivity(getPackageManager()) != null){
             Log.d("Prueba_foto", "Entro");
             File photoFile = null;
             try {
@@ -207,7 +231,35 @@ public class CamaraActivity extends AppCompatActivity  {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
             }
-       // }
-       // else {Log.d("Prueba_foto", "Ha entrado en el else");}
+    }
+
+    public void onTokenRefresh() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("Prueba_FCM", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Conseguir el token
+                        token = task.getResult();
+
+                        Log.d("Prueba_FCM", "El token aqui es --> " + token);
+                        Data data = new Data.Builder().putString("token", token).build();
+                        OneTimeWorkRequest otwr = new OneTimeWorkRequest.Builder(FirebaseNotificacion.class).setInputData(data).build();
+                        WorkManager.getInstance(CamaraActivity.this).enqueue(otwr);
+                        WorkManager.getInstance(CamaraActivity.this).getWorkInfoByIdLiveData(otwr.getId()).observe(CamaraActivity.this, new Observer<WorkInfo>() {
+                            public void onChanged(@Nullable WorkInfo workInfo) {
+                                if (workInfo != null && workInfo.getState().isFinished()) {
+                                    String resultado = workInfo.getOutputData().getString("result");
+                                    // Si el php devuelve que se ha identificado CORRECTAMENTE
+                                    Log.d("Prueba_FCM", "Resultado --> " + resultado);
+                                }
+                            }
+                        });
+                    }
+                });
     }
 }
