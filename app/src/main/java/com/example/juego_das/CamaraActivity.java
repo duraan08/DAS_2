@@ -77,8 +77,8 @@ public class CamaraActivity extends AppCompatActivity  {
     }
 
     private void askCameraPermissions(){
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
+        if (ContextCompat.checkSelfPermission(CamaraActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(CamaraActivity.this, new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
         }else{
             dispatchTakePictureIntent();
         }
@@ -103,7 +103,7 @@ public class CamaraActivity extends AppCompatActivity  {
                 dispatchTakePictureIntent();
             }
             else {
-                Toast.makeText(this, "Camara", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CamaraActivity.this, "Camara", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -194,11 +194,12 @@ public class CamaraActivity extends AppCompatActivity  {
     private void dispatchTakePictureIntent(){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         //Se asegura de que hay una actividad para poder coger el intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null){
+        //if (takePictureIntent.resolveActivity(getPackageManager()) != null){
+            Log.d("Prueba_foto", "Entro");
             File photoFile = null;
             try {
                 photoFile = createImageFile();
-            }catch (IOException e){}
+            }catch (IOException e){Log.d("Prueba_Foto", e.toString());}
 
             //Solo continua si el archivo se ha creado correctamente
             if (photoFile != null){
@@ -206,6 +207,7 @@ public class CamaraActivity extends AppCompatActivity  {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
             }
-        }
+       // }
+       // else {Log.d("Prueba_foto", "Ha entrado en el else");}
     }
 }
