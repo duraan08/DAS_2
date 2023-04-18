@@ -162,7 +162,7 @@ public class CamaraActivity extends AppCompatActivity  {
                 });
                 //Se llama al metodo que ejecuta el php para enviar el mensaje FCM
                 onTokenRefresh();
-                Toast.makeText(CamaraActivity.this, "La imagen se ha subido correctamente", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CamaraActivity.this, "Revise las notificaciones", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
