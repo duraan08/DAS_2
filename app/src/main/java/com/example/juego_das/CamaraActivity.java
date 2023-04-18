@@ -161,8 +161,8 @@ public class CamaraActivity extends AppCompatActivity  {
                     }
                 });
                 //Se llama al metodo que ejecuta el php para enviar el mensaje FCM
-                onTokenRefresh();
-                Toast.makeText(CamaraActivity.this, "Revise las notificaciones", Toast.LENGTH_SHORT).show();
+                //onTokenRefresh();
+                Toast.makeText(CamaraActivity.this, "Imagen Subida Correctamente", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -183,6 +183,7 @@ public class CamaraActivity extends AppCompatActivity  {
             pulsado = true;
             imagenSeleccionada = findViewById(R.id.imagenCamara);
             Picasso.get().load(uri).into(imagenSeleccionada);
+            onTokenRefresh();
         }
         else {
             Toast.makeText(CamaraActivity.this, "Debería sacar una foto", Toast.LENGTH_SHORT).show();

@@ -42,7 +42,7 @@ public class ServicioFirebase extends FirebaseMessagingService {
                 elManager.createNotificationChannel(elCanal);
             }
 
-            elBuilder.setSmallIcon(android.R.drawable.alert_light_frame)
+            elBuilder.setSmallIcon(android.R.drawable.arrow_down_float)
                     .setContentTitle(remoteMessage.getNotification().getTitle())
                     .setContentText(remoteMessage.getNotification().getBody())
                     .setVibrate(new long[] {0, 1000, 500, 1000})
