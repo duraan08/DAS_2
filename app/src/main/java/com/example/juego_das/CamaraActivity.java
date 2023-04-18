@@ -124,9 +124,9 @@ public class CamaraActivity extends AppCompatActivity  {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_REQUEST_CODE){
+        if (requestCode == CAMERA_REQUEST_CODE) {
 
-            if (resultCode == Activity.RESULT_OK){
+            if (resultCode == Activity.RESULT_OK) {
                 Log.d("Prueba_Foto", "Entro3");
                 File f = new File(currentPhotoPath);
                 Log.d("Prueba_Foto", currentPhotoPath);
@@ -140,7 +140,15 @@ public class CamaraActivity extends AppCompatActivity  {
                 mediaScanIntent.setData(contentUri);
                 this.sendBroadcast(mediaScanIntent);
 
+                // Guardar uriFinal
+                uriFinal = contentUri;
+
                 uploadImageToFirebase(f.getName(), contentUri);
+            } else {
+                // Asegurarse de que uriFinal no se haya cambiado si la imagen no se ha capturado correctamente
+                if (uriFinal == null) {
+                    vacia = true;
+                }
             }
         }
     }
@@ -218,7 +226,7 @@ public class CamaraActivity extends AppCompatActivity  {
 
             //Solo continua si el archivo se ha creado correctamente
             if (photoFile != null){
-                Uri photoUri = FileProvider.getUriForFile(this, "com.example.android.fileprovider", photoFile);
+                Uri photoUri = FileProvider.getUriForFile(this, "com.example.android.juego_das.fileprovider", photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
             }
