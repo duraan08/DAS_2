@@ -46,6 +46,7 @@ public class InicioSesionActivity extends AppCompatActivity {
                         String[] lista = workInfo.getOutputData().getStringArray("array");
                         //Log.d("Inicio_Prueba", "usuario --> " + lista[0].equals(usuario));
                         //Log.d("Inicio_Prueba", "password --> " + lista[1].equals(pass));
+                        Log.d("Inicio_Prueba", "lista[0] --> " + lista[0]);
                         if (lista[0].equals(usuario) && lista[1].equals(pass)){
                             Intent inicio = new Intent(InicioSesionActivity.this, ParticipantesActivity.class);
                             startActivity(inicio);
@@ -53,7 +54,6 @@ public class InicioSesionActivity extends AppCompatActivity {
                         }
                         else{
                             Toast.makeText(InicioSesionActivity.this, "Tu usuario o contraseña son incorrectos", Toast.LENGTH_LONG).show();
-
                         }
                     }
                 }

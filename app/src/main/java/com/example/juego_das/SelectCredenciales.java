@@ -65,20 +65,30 @@ public class SelectCredenciales extends Worker {
                 Log.d("Prueba_Select", "resultado --> " + result);
                 inputStream.close();
 
-                //Se parsean los datos como JSON
-                JSONArray jsonArray = new JSONArray(result);
-                ArrayList<String[]> lista = new ArrayList<>();
-                for(int i = 0; i < jsonArray.length(); i++){
-                    String[] datos = {jsonArray.getJSONObject(i).getString("nombre"), jsonArray.getJSONObject(i).getString("password")};
-                    lista.add(datos);
+                if (!result.equals("null")){
+                    Log.d("Prueba_Select", "He entrado aqui");
+                    //Se parsean los datos como JSON
+                    JSONArray jsonArray = new JSONArray(result);
+                    ArrayList<String[]> lista = new ArrayList<>();
+                    for(int i = 0; i < jsonArray.length(); i++){
+                        String[] datos = {jsonArray.getJSONObject(i).getString("nombre"), jsonArray.getJSONObject(i).getString("password")};
+                        lista.add(datos);
+                    }
+                    Log.d("Select_Prueba", "Usuario --> " + lista.get(0)[0]);
+                    String[] array = {lista.get(0)[0], lista.get(0)[1]}; //Nombre || Password
+                    Data data = new Data.Builder()
+                            .putStringArray("array",array)
+                            .build();
+                    return Result.success(data);
                 }
-                Log.d("Select_Prueba", "Usuario --> " + lista.get(0)[0]);
-                String[] array = {lista.get(0)[0], lista.get(0)[1]}; //Nombre || Password
-
-                Data data = new Data.Builder()
-                        .putStringArray("array",array)
-                        .build();
-                return Result.success(data);
+                else {
+                    Log.d("Prueba_Select", "He entrado --> " + result);
+                    String[] array = {"null", "null"};
+                    Data data = new Data.Builder()
+                            .putStringArray("array",array)
+                            .build();
+                    return Result.success(data);
+                }
             }
         }
         catch (Exception e){
