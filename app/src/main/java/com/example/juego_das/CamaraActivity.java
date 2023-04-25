@@ -85,10 +85,12 @@ public class CamaraActivity extends AppCompatActivity  {
         askNotificationPermission();
     }
 
+    //Metodo para tratar el onclick desde el xml
     public void activarCamara(View view){
         askCameraPermissions();
     }
 
+    //Se piden los permisos para usar la camara
     private void askCameraPermissions(){
         if (ContextCompat.checkSelfPermission(CamaraActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(CamaraActivity.this, new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
@@ -97,6 +99,7 @@ public class CamaraActivity extends AppCompatActivity  {
         }
     }
 
+    //Se gestiona la informacion para cuando se gire el movil
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -108,6 +111,7 @@ public class CamaraActivity extends AppCompatActivity  {
         outState.putBoolean("pulsado", pulsado);
     }
 
+    //Se comprueban los permisos de la camara
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -121,6 +125,7 @@ public class CamaraActivity extends AppCompatActivity  {
         }
     }
 
+    //
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -153,6 +158,7 @@ public class CamaraActivity extends AppCompatActivity  {
         }
     }
 
+    //Subimos la imagen al servidor de firebase
     private void uploadImageToFirebase(String name, Uri contentUri) {
         StorageReference image = storageReference.child("images/" + name);
         image.putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -168,8 +174,6 @@ public class CamaraActivity extends AppCompatActivity  {
                         Log.d("Prueba_foto", "La uri es --> " + uriFinal);
                     }
                 });
-                //Se llama al metodo que ejecuta el php para enviar el mensaje FCM
-                //onTokenRefresh();
                 Toast.makeText(CamaraActivity.this, "Imagen Subida Correctamente", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -181,6 +185,7 @@ public class CamaraActivity extends AppCompatActivity  {
 
     }
 
+    //Para tratar el metodo desde el onclick del .xml
     public void VerImagenSubida(View view){
         verImagen(uriFinal);
     }
@@ -190,7 +195,7 @@ public class CamaraActivity extends AppCompatActivity  {
         if (uri != null){
             pulsado = true;
             imagenSeleccionada = findViewById(R.id.imagenCamara);
-            Picasso.get().load(uri).into(imagenSeleccionada);
+            Picasso.get().load(uri).into(imagenSeleccionada); //Se utiliza para descargar la imagen
             onTokenRefresh();
         }
         else {
@@ -198,6 +203,7 @@ public class CamaraActivity extends AppCompatActivity  {
         }
     }
 
+    //Se determina el tipo de archivo que es la imagen para subirla al servidor de firebase
     private File createImageFile() throws IOException {
         // Se crea la imagen con un TimeStamp
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -263,6 +269,7 @@ public class CamaraActivity extends AppCompatActivity  {
                 });
     }
 
+    //Permisos para las notificaciones
     // Declare the launcher at the top of your Activity/Fragment:
     private final ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {

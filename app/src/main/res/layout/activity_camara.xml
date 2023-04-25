@@ -25,15 +25,15 @@
 
     <ImageView
         android:id="@+id/imagenCamara"
-        android:layout_width="406dp"
-        android:layout_height="463dp"
+        android:layout_width="301dp"
+        android:layout_height="393dp"
         android:layout_marginTop="131dp"
         android:layout_marginBottom="137dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.542" />
 
     <Button
         android:id="@+id/btnEnviarImg"

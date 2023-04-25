@@ -65,7 +65,7 @@ public class RegistroActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable WorkInfo workInfo) {
                 if (workInfo != null && workInfo.getState().isFinished()) {
-                    String[] lista = workInfo.getOutputData().getStringArray("array");
+                    String[] lista = workInfo.getOutputData().getStringArray("array"); //Se recoge la respuesta del servidor (Array[])
                     if (lista != null){
                         existe[0] = lista[0].equals(user);
                     }
