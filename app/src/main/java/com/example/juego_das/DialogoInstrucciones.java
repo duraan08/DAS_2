@@ -19,7 +19,8 @@ public class DialogoInstrucciones extends DialogFragment {
                 " aleatoria y le asignará unos tragos." +
                 "\n\n4. El jugador elegido, tiene opción de jugar un minijuego para evitar beber los tragos asigandos." +
                 " Este trata de parar el cronometro en el momento exacto de (0:01:00) si lo consigue se libra de los tragos" +
-                " si no se duplicarán.");
+                " si no se duplicarán." +
+                "\n\n\nExtra : Si se desea compartir fotos debe pulsar en la opción 'Comparte tus fotos'");
         builder.setCancelable(false);
         builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override

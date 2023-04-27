@@ -262,6 +262,7 @@ public class CamaraActivity extends AppCompatActivity  {
                                     String resultado = workInfo.getOutputData().getString("result");
                                     // Si el php devuelve que se ha identificado CORRECTAMENTE
                                     Log.d("Prueba_FCM", "Resultado --> " + resultado);
+                                    Toast.makeText(CamaraActivity.this, "Comprueba las notificaciones", Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
